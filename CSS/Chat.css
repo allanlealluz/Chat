@@ -1,0 +1,12 @@
+p{font-size:2vw;max-width:100%;}
+.direita{margin-left:80%;display:table;background:gray;}
+.esquerda{display:table;background:lightgray;}
+#direita{margin-left:60%;}
+#div{width:50%;margin:0px auto 0px auto;border:1px solid black;}
+@media only screen and (max-width:700px){
+    p{font-size:30px;}
+    .direita{margin-left:50vw;}
+}
+input[type=text]{width:20vw;margin:0px 0px 0px 40vw;}
+input[type=file]{width:20vw;margin:0px 0px 0px 40vw;}
+.img{width:auto;height:20vw;}
