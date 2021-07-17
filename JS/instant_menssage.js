@@ -2,16 +2,15 @@ var div = document.getElementById('div')
 var form = document.getElementById('form')
 var input =  document.getElementById('conversa')
 var id = document.getElementById('id').innerHTML
-var form2 = document.getElementById('form2')
+var form2 = document.getElementById('form2')    
+   //window.scrollBy(0, -window.innerHeight); 
 fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
         .then(function(response){
            return response.json()
 })
         .then(function(data){
             
-           for(var i in data){ 
-               
-               
+           for(var i in data){                               
              if(data[i]['fk_remetente'] === id){                                        
                    if(data[i]['conversa'].substring(0,10) === 'data:image'){
                        var img = document.createElement('img')
@@ -40,8 +39,7 @@ fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
                    div.appendChild(p) 
                }
                 }               
-                 } 
-                   
+                 }                    
 })
 function buscar(){  
     fetch(`/Chat/Carregar.php?id=${id}`)
@@ -50,7 +48,7 @@ function buscar(){
     })
             .then(function(data){
                 for(var i in data){                                                        
-                                                
+                       console.log(data[i]['conversa'])                         
                    if(data[i]['conversa'].substring(0,10) === 'data:image' && data[i]['fk_remetente'] === id ){
                        var img = document.createElement('img')
                        img.src = data[i]['conversa'];
@@ -103,9 +101,5 @@ form2.addEventListener('submit',function(e){
         body: load.target.result
     })
            file.value = ''
-     })
-     
-    
-    
-   
+     })  
 })

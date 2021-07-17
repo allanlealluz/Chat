@@ -89,4 +89,12 @@ class Usuarios {
          $cmd->bindValue(':id', $id);      
          $cmd->execute();
      }
+     function BuscarUltimaMensagem($id,$id_destino){
+         $cmd = $this->pdo->prepare('select * from conversas where  fk_remetente = :fkd and fk_destinatario = :fkr limit 1 ');
+         $cmd->bindValue(':fkr', $id);
+         $cmd->bindValue(':fkd', $id_destino);
+         $cmd->execute();
+         $dados = $cmd->fetchAll();
+         return $dados;
+     }
 }

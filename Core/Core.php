@@ -5,10 +5,11 @@ class Core {
         $this->run();
     }
     function run(){     
+        if(isset($_GET['url'])){
        $url =  $_GET['url'];
        $url = explode('/', $url);
        $parametros = array();
-       if(isset($url)){
+       
            $controller = $url[0].'controller';
            array_shift($url);
            if(!empty($url)){
@@ -23,7 +24,8 @@ class Core {
            
        }else{
            $method = 'index';
-           $controler = 'indexcontroller';
+           $controller = 'indexcontroller';
+           $parametros = array();
        }
         $caminho = 'Chat/Controller/'.$controller.'.php';
   if(!file_exists($caminho) && !method_exists($controller, $method )){

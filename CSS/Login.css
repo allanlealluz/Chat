@@ -1,6 +1,8 @@
-input[type=text]{width:18vw;height:1vw;font-size:25px;}
-input[type=submit]{width:18vw;height:1.5vw;font-size:25px;}
-@media only screen and (max-width:750px){
-  input[type=text]{width:50vw;height:30vw;}
-  input[type=submit]{width:68vw;height:45vw;font-size:25px;}
+input[type=text]{width:18vw;height:1vw;font-size:25px;display:block;margin:auto;}
+nput[type=submit]{margin-left:10vw;}
+#form{width:30vw;height:10vw;margin:10vw 0 0 10vw;background:lightgray;}
+@media only screen and (max-width:1500px){
+  input[type=text]{width:50vw;height:3vh;}
+  input[type=submit]{width:30vw;height:4vh;}
+  #form{width:60vw;height:20vw;margin:40vw 0 0 30vw;background:lightgray;}
 }

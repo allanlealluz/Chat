@@ -12,7 +12,7 @@ and open the template in the editor.
     </head>
     <body onload="buscar()">
         <?php foreach($dadosModel as $v){?>
-        <h2><?php echo $v['nome']; ?></h2>
+        <h2 id="nome"><?php echo $v['nome']; ?></h2>
         <h3 id="id" style="display:none;"><?php echo $v['id']; ?></h3>
         <?php
         }          
@@ -26,7 +26,7 @@ and open the template in the editor.
         $con->InserirConversa($conversa, $_SESSION['id_user'],$id);
      }
         ?>
-        <div id="div" style="word-break:break-word;"></div>
+        <div id="div" onclick="scroll()" style="word-break:break-word;"></div>
         <form method="POST" id="form">
             <input type="text" id="conversa">
         </form>

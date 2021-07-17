@@ -4,7 +4,7 @@ if(!isset($_GET['arm'])){
 require_once 'model/Usuarios.php';
 $con = new Usuarios('chat', 'localhost', 'root', '');
 $id = $_GET['id'];
-$dados = $con->buscarMensagens($_SESSION['id_user'], $id);
+$dados = $con->BuscarUltimaMensagem($_SESSION['id_user'], $id);
 $dadosjson = json_encode($dados);
 echo $dadosjson;
 foreach($dados as $v){
