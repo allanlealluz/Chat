@@ -1,15 +1,16 @@
 body{background-color:#000c48}
-#nome{background:lightgray;color:black;position:fixed;}
+#nome{background:whitesmoke;color:black;position:fixed;}
 p{font-size:2vw;max-width:100%;}
 .direita{margin-left:90%;display:table;background:gray;}
 .esquerda{display:table;background:lightgray;}
 #direita{margin-left:60%;}
-#div{width:70%;height:20%;margin:0px auto 0px auto;border:1px solid black;background:white;overflow-y:scroll}
+#div{width:70%;height:20%;margin:0px auto 0px auto;border:1px solid black;background:white;}
 @media only screen and (max-width:1100px){
     p{font-size:30px;}
     .direita{margin-left:50vw;}
     #div{width:100%;}
+    
 }
-input[type=text]{width:20vw;margin:0px 0px 0px 40vw;}
+#conversa{margin:0px 0px 0px 40vw;background:white !important;}
 input[type=file]{width:20vw;margin:0px 0px 0px 40vw;}
 .img{width:auto;height:20vw;}

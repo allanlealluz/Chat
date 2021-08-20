@@ -3,6 +3,12 @@ var form = document.getElementById('form')
 var input =  document.getElementById('conversa')
 var id = document.getElementById('id').innerHTML
 var form2 = document.getElementById('form2')    
+var button = document.getElementById('mandar')
+form.addEventListener('keypress',function(e){
+   if(e.key === 'Enter'){
+       button.click();
+   }
+})
    //window.scrollBy(0, -window.innerHeight); 
 fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
         .then(function(response){
@@ -103,3 +109,32 @@ form2.addEventListener('submit',function(e){
            file.value = ''
      })  
 })
+function notifyMe() {
+    
+  // Verifica se o browser suporta notificações
+  if (!("Notification" in window)) {
+    alert("Este browser não suporta notificações de Desktop");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification("Hi there!");
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you
+  // want to be respectful there is no need to bother them any more.
+}
+
+
+

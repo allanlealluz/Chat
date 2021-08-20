@@ -11,17 +11,18 @@ class Usuarios {
         }
         
     }
-    function Cadastrar($nome,$email,$senha){
+    function Cadastrar($nome,$email,$senha,$imagem){
          $cmd = $this->pdo->prepare('SELECT * FROM usuarios WHERE email = :e');
         $cmd->bindValue(':e', $email);
         $cmd->execute();
         if($cmd->rowCount() > 0){
             return false;
         }else{
-            $cmd = $this->pdo->prepare("INSERT INTO usuarios (nome,email,senha) VALUES (:n,:e,:s)");
+            $cmd = $this->pdo->prepare("INSERT INTO usuarios (nome,email,senha,imagem) VALUES (:n,:e,:s,:i)");
             $cmd->bindValue(":n", $nome);
             $cmd->bindValue(":e", $email);
             $cmd->bindValue(":s", $senha);
+            $cmd->bindValue(":i", $imagem);
             $cmd->execute();
             
         }

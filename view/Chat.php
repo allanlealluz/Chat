@@ -7,7 +7,8 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <link rel="icon" href="../chat icon.jpg"> 
+        <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no" />
         <link rel="stylesheet" href="../../CSS/Chat.css">
     </head>
     <body onload="buscar()">
@@ -28,12 +29,14 @@ and open the template in the editor.
         ?>
         <div id="div" onclick="scroll()" style="word-break:break-word;"></div>
         <form method="POST" id="form">
-            <input type="text" id="conversa">
+            <textarea id="conversa" rows="5" cols="33"></textarea>
+            <input type="submit" style="display:none;" id="mandar" onclick="notifyMe()">
         </form>
         <form id="form2">
             <input type="file" id="file">
             <input type="submit" id="button">
         </form>
-        <script src="../../JS/instant_menssage.js"></script>       
+        <script src="../../JS/instant_menssage.js"></script>   
+       
     </body>
 </html>

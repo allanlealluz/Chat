@@ -6,7 +6,7 @@ input[type=text]{width:18vw;height:1vw;font-size:25px;display:block;margin-top:5
 input[type=submit]{border:1px solid black;background:white;}
 #form{width:30vw;height:30vw;background:lightgray;box-shadow:black 5px 5px 2px;}
 @media only screen and (max-width:1500px){
-  input[type=text]{width:80vw;height:5vh;margin-top:2vw;}
-  input[type=submit]{width:70vw;height:5vh;margin-top:2vw;}
-  #form{width:80vw;height:70vw;background:lightgray;}
+  input[type=text]{width:50vw;height:3vh;}
+  input[type=submit]{width:30vw;height:4vh;}
+  #form{width:60vw;height:20vw;margin:40vw 0 0 30vw;background:lightgray;}
 }
