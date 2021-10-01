@@ -41,7 +41,7 @@ var myInit = { method: 'GET',
                headers: myHeaders,
                mode: 'no-cors',
                cache: 'default' };
-
+/* this page depends of the django page polls */
 fetch(`http://127.0.0.1:8000/polls/${perg}/teste`,myInit)
  
 fetch(`http://localhost/Chat/teste.php?perg=${perg}`)
