@@ -12,26 +12,27 @@ class Usuarios {
         
     }
     function Cadastrar($nome,$email,$senha,$imagem){
-         $cmd = $this->pdo->prepare('SELECT * FROM usuarios WHERE email = :e');
+        $cmd = $this->pdo->prepare('SELECT * FROM usuarios WHERE email = :e');
         $cmd->bindValue(':e', $email);
         $cmd->execute();
         if($cmd->rowCount() > 0){
             return false;
         }else{
-            $cmd = $this->pdo->prepare("INSERT INTO usuarios (nome,email,senha,imagem) VALUES (:n,:e,:s,:i)");
+            $cmd = $this->pdo->prepare("INSERT INTO usuarios (nome,email,senha,imagem,token) VALUES (:n,:e,:s,:i,:t)");
             $cmd->bindValue(":n", $nome);
             $cmd->bindValue(":e", $email);
-            $cmd->bindValue(":s", $senha);
+            $cmd->bindValue(":s", md5($senha));
             $cmd->bindValue(":i", $imagem);
+            $cmd->bindValue(':t', rand(10000,99999));
             $cmd->execute();
             
         }
 }
      function entrar($email,$senha){
-    $cmd = $this->pdo->prepare('SELECT * FROM usuarios WHERE email = :e and senha = :s');
+        $cmd = $this->pdo->prepare("SELECT * FROM usuarios WHERE email = :e and senha = :s");
         $cmd->bindValue(':e', $email);
-        $cmd->bindValue(':s', $senha);
-        $cmd->execute();
+        $cmd->bindValue(':s', md5($senha));
+        $cmd->execute();       
         if($cmd->rowCount() > 0){
             $dados =  $cmd->fetch();
             session_start();
@@ -51,11 +52,12 @@ class Usuarios {
          $cmd = $this->pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
          $cmd->bindValue(':id', $id);
          $cmd->execute();
-         $dados = $cmd->fetchAll();
+         $dados = $cmd->fetchAll(PDO::FETCH_ASSOC);
          if(empty($dados)){
              return false;
-         }
+         }else{
          return $dados;
+         }
      }
      function InserirConversa($conversa,$id,$id_destino){
          $cmd = $this->pdo->prepare("INSERT INTO conversas (conversa,fk_remetente,fk_destinatario) VALUES (:c,:fkr,:fkd)");       

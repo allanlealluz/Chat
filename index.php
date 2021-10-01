@@ -13,8 +13,7 @@ and open the template in the editor.
         <link rel="icon" href="../../chat icon.jpg">  
         <link rel="icon" href="../../../chat icon.jpg">        
     </head>
-    <body>
-        
+    <body>      
         <?php
         require_once 'autoload.php';
         $c = new Core();

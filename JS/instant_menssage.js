@@ -4,19 +4,23 @@ var input =  document.getElementById('conversa')
 var id = document.getElementById('id').innerHTML
 var form2 = document.getElementById('form2')    
 var button = document.getElementById('mandar')
+var nome = document.getElementById('nome').innerHTML
+var key = document.getElementById('key').innerHTML
 form.addEventListener('keypress',function(e){
    if(e.key === 'Enter'){
        button.click();
    }
 })
    //window.scrollBy(0, -window.innerHeight); 
-fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
+fetch(`/Chat/Carregar.php?id=${id}&arm=arm&key=${key}`)
         .then(function(response){
            return response.json()
 })
         .then(function(data){
-            
-           for(var i in data){                               
+         
+           for(var i in data){
+               console.log(data[i]['conversa'])
+       console.log(data[i]['fk_remetente'])
              if(data[i]['fk_remetente'] === id){                                        
                    if(data[i]['conversa'].substring(0,10) === 'data:image'){
                        var img = document.createElement('img')
@@ -34,7 +38,7 @@ fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
                 }else{
                     if(data[i]['conversa'].substring(0,10) === 'data:image'){
                        var img = document.createElement('img')
-                       img.src = data[i]['conversa'];
+                       img.src = data[0];
                        img.setAttribute('id',"esquerda")
                        img.setAttribute('class','img')
                        div.appendChild(img)
@@ -48,13 +52,13 @@ fetch(`/Chat/Carregar.php?id=${id}&arm=arm`)
                  }                    
 })
 function buscar(){  
-    fetch(`/Chat/Carregar.php?id=${id}`)
+    fetch(`/Chat/Carregar.php?id=${id}&key=${key}`)
             .then(function(response){
                return response.json()
     })
             .then(function(data){
-                for(var i in data){                                                        
-                       console.log(data[i]['conversa'])                         
+                for(var i in data){                 
+                    console.log(data[i]['conversa'])
                    if(data[i]['conversa'].substring(0,10) === 'data:image' && data[i]['fk_remetente'] === id ){
                        var img = document.createElement('img')
                        img.src = data[i]['conversa'];
@@ -71,13 +75,14 @@ function buscar(){
                }                          
                         
        
-                }                                           
+                }      
+            
              })   
     
     setTimeout('buscar()',500)
 }
 form.addEventListener('submit',function(e){
-   
+    if(input.value != ''){
     e.preventDefault()
     var p =  document.createElement('p');
     p.innerHTML = input.value;
@@ -88,8 +93,14 @@ form.addEventListener('submit',function(e){
         method: 'POST',
         body: input.value
     })
+    fetch(`/Chat/Carregar.php?id=${id}&arm=arm&key=${key}`,{    
+        method : 'POST',
+        body: input.value
+    })
             input.value = ''
+        }
 })
+
 form2.addEventListener('submit',function(e){
      e.preventDefault()
      var file = document.getElementById('file')

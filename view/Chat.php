@@ -12,19 +12,26 @@ and open the template in the editor.
         <link rel="stylesheet" href="../../CSS/Chat.css">
     </head>
     <body onload="buscar()">
-        <?php foreach($dadosModel as $v){?>
+        <?php      
+        foreach($dadosModel as $v){?>
         <h2 id="nome"><?php echo $v['nome']; ?></h2>
         <h3 id="id" style="display:none;"><?php echo $v['id']; ?></h3>
+        ?><h3 id="key" style="display:none;"><?php echo $v['token'] ?></h3>
         <?php
+        $key = $v['token'];
         }          
      if(isset($_GET['url'] )&& !empty(file_get_contents("php://input"))){
          session_start();
          require_once 'model/Usuarios.php';
         $con = new Usuarios('chat', 'localhost', 'root', '');     
-         $ide = explode("/",$_GET['url']);
+        $ide = explode("/",$_GET['url']);
         $id = htmlentities(addslashes($ide[2]));        
-         $conversa = htmlentities(addslashes(file_get_contents("php://input")));
-        $con->InserirConversa($conversa, $_SESSION['id_user'],$id);
+        $conversa = htmlentities(addslashes(trim(file_get_contents("php://input"))));       
+        if(!empty($conversa)){                                    
+            $conversa = openssl_encrypt($conversa, 'AES-256-CBC', $key);
+             $con->InserirConversa($conversa, $_SESSION['id_user'],$id);
+             
+        }
      }
         ?>
         <div id="div" onclick="scroll()" style="word-break:break-word;"></div>
