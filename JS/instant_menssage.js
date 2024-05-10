@@ -1,60 +1,87 @@
-const div = document.getElementById('div')
-const form = document.getElementById('form')
-const input = document.getElementById('conversa')
-const id = document.getElementById('id').innerHTML
-const form2 = document.getElementById('form2')
-const button = document.getElementById('mandar')
-const nome = document.getElementById('nome').innerHTML
-const key = document.getElementById('key').innerHTML
+// Chat elements
+const chatElements = {
+  div: document.getElementById('div'),
+  form: document.getElementById('form'),
+  input: document.getElementById('conversa'),
+  id: document.getElementById('id').innerHTML,
+  form2: document.getElementById('form2'),
+  button: document.getElementById('mandar'),
+  nome: document.getElementById('nome').innerHTML,
+  key: document.getElementById('key').innerHTML,
+  fileInput: document.getElementById('file'),
+};
 
-form.addEventListener('keypress', (e) => e.key === 'Enter' && button.click())
+// API endpoints
+const apiEndpoints = {
+  loadMessages: `/Chat/Carregar.php?id=${chatElements.id}&arm=arm&key=${chatElements.key}`,
+  sendMessage: `${chatElements.id}`,
+};
 
-const loadMessages = async () => {
-  const response = await fetch(`/Chat/Carregar.php?id=${id}&arm=arm&key=${key}`)
-  const data = await response.json()
-  data.forEach(({ conversa, fk_remetente }) => {
-    const msg = document.createElement('p')
-    if (fk_remetente === id) msg.classList.add('direita')
-    else msg.classList.add('esquerda')
-    if (conversa.startsWith('data:image')) {
-      const img = document.createElement('img')
-      img.src = conversa
-      div.appendChild(img)
-    } else {
-      msg.textContent = conversa
-      div.appendChild(msg)
+// Load messages function
+async function loadMessages() {
+  try {
+    const response = await fetch(apiEndpoints.loadMessages);
+    const data = await response.json();
+    data.forEach(({ conversa, fk_remetente }) => {
+      const msg = document.createElement('p');
+      if (fk_remetente === chatElements.id) msg.classList.add('direita');
+      else msg.classList.add('esquerda');
+      if (conversa.startsWith('data:image')) {
+        const img = document.createElement('img');
+        img.src = conversa;
+        chatElements.div.appendChild(img);
+      } else {
+        msg.textContent = conversa;
+        chatElements.div.appendChild(msg);
+      }
+    });
+  } catch (error) {
+    console.error('Error loading messages:', error);
+  }
+}
+
+// Send message function
+async function sendMessage(message) {
+  if (!message) return;
+  try {
+    const p = document.createElement('p');
+    p.textContent = message;
+    p.classList.add('esquerda');
+    chatElements.div.appendChild(p);
+    await fetch(apiEndpoints.sendMessage, { method: 'POST', body: message });
+    chatElements.input.value = '';
+  } catch (error) {
+    console.error('Error sending message:', error);
+  }
+}
+
+// Handle form submission
+chatElements.form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  sendMessage(chatElements.input.value);
+});
+
+// Handle file upload
+chatElements.form2.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const file = chatElements.fileInput.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.addEventListener('loadend', async () => {
+    try {
+      const img = document.createElement('img');
+      img.src = reader.result;
+      img.width = 500;
+      img.height = 500;
+      chatElements.div.appendChild(img);
+      await fetch(apiEndpoints.sendMessage, { method: 'POST', body: reader.result });
+      chatElements.fileInput.value = '';
+    } catch (error) {
+      console.error('Error uploading file:', error);
     }
-  })
-}
+  });
+});
 
-const sendMessage = async (message) => {
-  if (!message) return
-  const p = document.createElement('p')
-  p.textContent = message
-  p.classList.add('esquerda')
-  div.appendChild(p)
-  await fetch(`${id}`, { method: 'POST', body: message })
-  await fetch(`/Chat/Carregar.php?id=${id}&arm=arm&key=${key}`, { method: 'POST', body: message })
-  input.value = ''
-}
-
-form.addEventListener('submit', (e) => sendMessage(input.value))
-
-form2.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  const file = document.getElementById('file').files[0]
-  const leitorDeArquivos = new FileReader()
-  leitorDeArquivos.readAsDataURL(file)
-  leitorDeArquivos.addEventListener('loadend', async () => {
-    const img = document.createElement('img')
-    img.src = leitorDeArquivos.result
-    img.width = 500
-    img.height = 500
-    div.appendChild(img)
-    await fetch(`${id}`, { method: 'POST', body: leitorDeArquivos.result })
-    document.getElementById('file').value = ''
-  })
-})
-
-loadMessages()
-setInterval(loadMessages, 500)
+// Load messages initially and every 500ms
+loadMessages();
+setInterval(loadMessages, 500);
